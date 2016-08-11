@@ -25,7 +25,7 @@
           seckill
         WHERE seckill_id = #{seckillId}
     </select>
-    <select id="queryAll" resultType="Seckill" parameterType="int">
+    <select id="queryAll" resultType="Seckill">
         SELECT
           seckill_id,
           name,
