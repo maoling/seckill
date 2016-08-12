@@ -19,6 +19,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -34,7 +35,9 @@ public class SeckillController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
 	private SeckillService seckillService;
+	
     @RequestMapping(value="/time/now",method = RequestMethod.GET)
+    @ResponseBody
 	public SeckillResult<Long> time(){
 		Date now = new Date();
 		return new SeckillResult(true,now.getTime());

@@ -15,6 +15,7 @@
 *.iml
 .svn/*
 target/
+/target
 .log
 *.txt
 

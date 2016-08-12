@@ -1,5 +1,5 @@
-//´æ·ÅÖ÷Òª½»»¥Âß¼­js´úÂë
-// javascript Ä£¿é»¯
+//ï¿½ï¿½ï¿½ï¿½ï¿½Òªï¿½ï¿½ï¿½ï¿½ï¿½ß¼ï¿½jsï¿½ï¿½ï¿½ï¿½
+// javascript Ä£ï¿½é»¯
 var seckill = {
 	URL : {
 		
@@ -31,10 +31,14 @@ var seckill = {
 			    		$.cookie('killPhone',inputPhone,{expires:7,path:'/seckill'});
 			    		window.location.reload();
 			    	}else{
-			    		$('#killPhoneMessage').hide().html('<lable class="label label-danger">ÊÖ»úºÅ´íÎó£¡</lable>').show(500);
+			    		$('#killPhoneMessage').hide().html('<lable class="label label-danger">ï¿½Ö»ï¿½Å´ï¿½ï¿½ï¿½</lable>').show(500);
 			    	}
 			    });
 			}
+			//å·²ç»ç™»å½•ï¼Œè®¡æ—¶äº¤äº’
+			$.get('/seckill/time/')
+			
+			
 		}
 	}				
 }
