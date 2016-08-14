@@ -18,6 +18,7 @@ target/
 /target
 .log
 *.txt
+*.swp
 
 *.MF
 /META-INF
