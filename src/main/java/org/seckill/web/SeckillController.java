@@ -30,7 +30,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
  */
 @Controller
 @RequestMapping("/seckill")
-// url:/Ä£¿é/
+// url:/Ä£ï¿½ï¿½/
 public class SeckillController {
 	private final Logger logger = LoggerFactory.getLogger(this.getClass());
 	@Autowired
@@ -52,7 +52,7 @@ public class SeckillController {
 			@PathVariable("md5") String md5) {
 		// springmvc valid
 		if (userphone == null) {
-			return new SeckillResult<SeckillExecution>(false, "Î´×¢²á");
+			return new SeckillResult<SeckillExecution>(false, "Î´×¢ï¿½ï¿½");
 		}
 		// SeckillResult<SeckillExecution> result;
 		try {
@@ -82,7 +82,7 @@ public class SeckillController {
 	// ajax json
 	@RequestMapping(value = "/{seckillId}/exposer", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
-	public SeckillResult<Exposer> exposer(Long seckillId) {
+	public SeckillResult<Exposer> exposer(@PathVariable("seckillId")Long seckillId) {
 		SeckillResult<Exposer> result;
 		try {
 			Exposer exposer = seckillService.exportSeckillUrl(seckillId);

@@ -2,10 +2,47 @@ var seckill = {
 	URL : {
 		now : function(){
 			return '/seckill/time/now';
+		},
+		exposer : function(seckillId){
+			return '/seckill/'+seckillId+'/exposer';
+		},
+		execution : function(seckillId,md5){
+			return 'seckill/'+seckillId+'/'+md5+'/execution';
 		}
 	},
-	handleSeckillkill : function(){
-		
+	handleSeckillkill : function(seckillId,node){
+		node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+	    $.post(seckill.URL.exposer(seckillId),{},function(result){
+	    	if(result && result['success']){
+	    		var exposer = result['data'];
+	    		if(exposer['exposed']){
+	    			//开启秒杀
+	    			var md5 = exposer['md5'];
+	    			var killUrl = seckill.URL.execution(seckillId,md5);
+	    			//click()不取消事件绑定，则一直绑定;绑定一次点击事件，防止造成服务器压力
+	    			$('#killBtn').one('click',function(){
+	    			   //执行秒杀请求
+	    			   //先禁用按钮
+	    			   $(this).addClass('disabled');
+	    			   //发送请求，执行秒杀
+	    			   $.post(killUrl,{},function(result){
+	    				   if(result && result['success']){
+	    					   var ;
+	    				   }
+	    			   });
+	    			});
+	    		}else{
+	    			//未开启秒杀
+	    			var now = exposer['now'];
+	    			var start = exposer['start'];
+	    			var end = exposer['end'];
+	    			//重新进入计时逻辑
+	    			seckill.countdown(seckillId,now,start,end);
+	    		}
+	    	}else{
+	    		console.log('result:'+result);
+	    	}
+	    });
 	},
 	validatePhone : function(phone){
 		if(phone && phone.length == 11 && !isNaN(phone)){
@@ -23,13 +60,13 @@ var seckill = {
 			seckillBox.countdown(killTime,function(event){
 				var format = event.strftime('秒杀倒计时: %D天  %H时  %M分 %S秒');
 				seckillBox.html(format);
-				/*时间完成后回调事件*/
+				/* 时间完成后回调事件 */
 			}).on('finish.countdown',function(){
-				seckill.handleSeckillkill();
+				seckill.handleSeckillkill(seckillId,seckillBox);
 			});
 		}else{
-			//执行秒杀逻辑
-			seckill.handleSeckillkill();
+			// 执行秒杀逻辑
+			seckill.handleSeckillkill(seckillId,seckillBox);
 		}
 	},
 	detail : {
@@ -57,7 +94,7 @@ var seckill = {
 			var startTime = params['startTime'];
 			var endTime = params['endTime'];
 			var seckillId = params['seckillId'];
-			//已经登录，计时交互
+			// 已经登录，计时交互
 			$.get(seckill.URL.now(),{},function(result){
 				if(result && result['success']){
 					var nowTime = result['data'];
