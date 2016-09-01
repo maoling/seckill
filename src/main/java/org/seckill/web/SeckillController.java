@@ -92,7 +92,7 @@ public class SeckillController {
 			result = new SeckillResult<Exposer>(false, e.getMessage());
 		}
 
-		return null;
+		return result;
 	}
 
 	@RequestMapping(value = "/list", method = RequestMethod.GET)
