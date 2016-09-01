@@ -27,9 +27,14 @@ var seckill = {
 	    			   //发送请求，执行秒杀
 	    			   $.post(killUrl,{},function(result){
 	    				   if(result && result['success']){
-	    					   var ;
+	    					   var killResult = result['data'];
+	    					   var state = killResult['state'];
+	    					   var stateInfo = killResult['stateInfo'];
+	    					   //显示秒杀结果
+	    					   node.html('<span class= "label label-success">'+stateInfo+'</span>');
 	    				   }
 	    			   });
+	    			   node.show();
 	    			});
 	    		}else{
 	    			//未开启秒杀
