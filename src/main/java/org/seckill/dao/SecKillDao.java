@@ -6,7 +6,9 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 import org.seckill.entity.Seckill;
-
+/*
+ * test for git pull--09-02-15:50 
+ */
 public interface SecKillDao {
    int reduceNumber(@Param("seckillId") long seckillId,@Param("killTime") Date killTime);
    Seckill queryById(long seckillId);
