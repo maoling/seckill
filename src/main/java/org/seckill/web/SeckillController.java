@@ -46,13 +46,13 @@ public class SeckillController {
 	@RequestMapping(value = "/{seckillId}/{md5}/execution", method = RequestMethod.POST, produces = { "application/json;charset=UTF-8" })
 	@ResponseBody
 	public SeckillResult<SeckillExecution> execute(
-			@PathVariable("seckillId") long seckillId,
-			@CookieValue(value = "killphone", required = false) Long userphone,
-
-			@PathVariable("md5") String md5) {
+								@PathVariable("seckillId") long seckillId,
+								@PathVariable("md5") String md5,
+								@CookieValue(value = "killPhone", required = false) Long userphone
+			) {
 		// springmvc valid
 		if (userphone == null) {
-			return new SeckillResult<SeckillExecution>(false, "δע��");
+			return new SeckillResult<SeckillExecution>(false, "未注册");
 		}
 		// SeckillResult<SeckillExecution> result;
 		try {
@@ -62,18 +62,18 @@ public class SeckillController {
 		} catch (RepeatKillException e) {
 			SeckillExecution execution = new SeckillExecution(seckillId,
 					SeckillStatEnum.REPEAT_KILL);
-			return new SeckillResult(false, execution);
+			return new SeckillResult(true, execution);
 		} catch (SeckillClosedException e) {
 			SeckillExecution execution = new SeckillExecution(seckillId,
 					SeckillStatEnum.END);
-			return new SeckillResult(false, execution);
+			return new SeckillResult(true, execution);
 		} catch (Exception e) {
 			// TODO: handle exception
 			logger.error(e.getMessage(), e);
 			// TODO
 			SeckillExecution execution = new SeckillExecution(seckillId,
 					SeckillStatEnum.INNER_ERROR);
-			return new SeckillResult(false, execution);
+			return new SeckillResult(true, execution);
 		}
 
 		// return null;

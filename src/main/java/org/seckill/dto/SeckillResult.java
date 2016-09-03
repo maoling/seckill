@@ -1,6 +1,6 @@
 package org.seckill.dto;
 
-//��װjson���
+
 public class SeckillResult<T>{
 	private boolean success;
 	private T data;

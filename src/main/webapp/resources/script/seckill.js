@@ -7,11 +7,11 @@ var seckill = {
 			return '/seckill/'+seckillId+'/exposer';
 		},
 		execution : function(seckillId,md5){
-			return 'seckill/'+seckillId+'/'+md5+'/execution';
+			return '/seckill/'+seckillId+'/'+md5+'/execution';
 		}
 	},
 	handleSeckillkill : function(seckillId,node){
-		node.hide().html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
+		node.html('<button class="btn btn-primary btn-lg" id="killBtn">开始秒杀</button>');
 	    $.post(seckill.URL.exposer(seckillId),{},function(result){
 	    	if(result && result['success']){
 	    		var exposer = result['data'];
@@ -19,6 +19,7 @@ var seckill = {
 	    			//开启秒杀
 	    			var md5 = exposer['md5'];
 	    			var killUrl = seckill.URL.execution(seckillId,md5);
+	    			console.log("killUrl:" + killUrl);
 	    			//click()不取消事件绑定，则一直绑定;绑定一次点击事件，防止造成服务器压力
 	    			$('#killBtn').one('click',function(){
 	    			   //执行秒杀请求
