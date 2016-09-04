@@ -10,7 +10,6 @@ import org.seckill.entity.Seckill;
 import org.seckill.enums.SeckillStatEnum;
 import org.seckill.exception.RepeatKillException;
 import org.seckill.exception.SeckillClosedException;
-import org.seckill.exception.SeckillException;
 import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -19,14 +18,17 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * GET /seckill/ GET /seckill/{id}/detail GET /seckill/time/now POST
- * /seckill/{id}/exposer POST /seckill/{id}/{md5}/execution
+
+/**url:/模块/资源/{id}/细分 /seckill/list
+ * GET /seckill/ 
+ * GET /seckill/{id}/detail 
+ * GET /seckill/time/now 
+ * POST	/seckill/{id}/exposer  
+ * POST /seckill/{id}/{md5}/execution
  */
 @Controller
 @RequestMapping("/seckill")

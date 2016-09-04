@@ -5,6 +5,7 @@ import java.util.List;
 
 import org.seckill.dao.SecKillDao;
 import org.seckill.dao.SuccessKilledDao;
+import org.seckill.dao.cache.RedisDao;
 import org.seckill.dto.Exposer;
 import org.seckill.dto.SeckillExecution;
 import org.seckill.entity.Seckill;
@@ -16,7 +17,6 @@ import org.seckill.exception.SeckillException;
 import org.seckill.service.SeckillService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.aop.ThrowsAdvice;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -25,13 +25,14 @@ import org.springframework.util.DigestUtils;
 @Service
 public class SeckillServiceImpl implements SeckillService {
 	private Logger logger = LoggerFactory.getLogger(this.getClass());
-	
+
 	@Autowired
 	private SecKillDao secKillDao;
 	@Autowired
 	private SuccessKilledDao successKilledDao;
-	
-	// ¼ÓÈëÑÎÖµ,md5ÑÎÖµ×Ö·û´®£¬ÓÃÓÚ»ìÏýMD5
+	@Autowired
+	private RedisDao redisDao;
+
 	private final String salt = "1234567890)(*&^%$#@!";
 
 	@Override
@@ -49,22 +50,30 @@ public class SeckillServiceImpl implements SeckillService {
 	@Override
 	public Exposer exportSeckillUrl(long seckillId) {
 		// TODO Auto-generated method stub
-		Seckill seckill = secKillDao.queryById(seckillId);
-		if (seckill == null)
-			return new Exposer(false, seckillId);
+		// å…ˆè®¿é—®ç¼“å­˜ä¼˜åŒ–
+		Seckill seckill = redisDao.getSeckill(seckillId);
+		if (seckill == null) {
+			seckill = secKillDao.queryById(seckillId);
+			if (seckill != null) {
+				redisDao.putSeckill(seckill);
+			} else {
+				return new Exposer(false, seckillId);
+			}
+		}
+		
 		Date startTime = seckill.getStartTime();
 		Date endTime = seckill.getEndTime();
-		// ÏµÍ³µ±Ç°Ê±¼ä
+		//
 		Date nowTime = new Date();
 
 		if (nowTime.getTime() < startTime.getTime()
 				|| nowTime.getTime() > endTime.getTime()) {
-			// µ±Ç°Ê±¼ä²»ÔÚÃëÉ±Ê±¼ä·¶Î§ÄÚ
+			//
 			return new Exposer(false, seckillId, nowTime.getTime(),
 					startTime.getTime(), endTime.getTime());
 		}
 
-		// TODO ×ª»¯ÌØ¶¨×Ö·û´®µÄ¹ý³Ì,²»¿ÉÄæ
+		// TODO
 		String md5 = getMD5(seckillId);
 		return new Exposer(true, md5, seckillId);
 	}
@@ -89,27 +98,28 @@ public class SeckillServiceImpl implements SeckillService {
 			if (updateCount <= 0) {
 				throw new SeckillClosedException("seckill is closed");
 			} else {
-				// ¼ÇÂ¼¹ºÂòÐÐÎª
-				int insertCount = successKilledDao.insertSuccessKilled(seckillId,
-						userphone);
+				// ï¿½ï¿½Â¼ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Îª
+				int insertCount = successKilledDao.insertSuccessKilled(
+						seckillId, userphone);
 				if (insertCount <= 0)
 					throw new RepeatKillException("seckill is repeated");
 				else {
 					SuccessKilled successKilled = successKilledDao
 							.queryByIdWithSeckill(seckillId, userphone);
-					return new SeckillExecution(seckillId, SeckillStatEnum.SUCCESS);
+					return new SeckillExecution(seckillId,
+							SeckillStatEnum.SUCCESS);
 				}
 			}
-		}catch(SeckillClosedException e1){
+		} catch (SeckillClosedException e1) {
 			throw e1;
-		}catch(RepeatKillException e2){
+		} catch (RepeatKillException e2) {
 			throw e2;
-		}catch (Exception e) {
-			logger.error(e.getMessage(),e);
-			//ËùÓÐ±àÒëÆÚÒì³£×ª»¯³ÉÔËÐÐÊ±Òì³££¬»á»Ø¹ö
-			throw new SeckillException("seckill inner error:" + e.getMessage()); 
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			// ï¿½ï¿½ï¿½Ð±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ì³£×ªï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½ì³£ï¿½ï¿½ï¿½ï¿½Ø¹ï¿½
+			throw new SeckillException("seckill inner error:" + e.getMessage());
 		}
-		
+
 	}
 
 	private String getMD5(long seckillId) {
