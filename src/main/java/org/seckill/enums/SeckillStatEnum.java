@@ -7,7 +7,7 @@ public enum SeckillStatEnum {
     INNER_ERROR(-2,"系统异常"),
     DATA_REWRITE(-3,"数据篡改");
 
-	private static SeckillStatEnum stateOf(int index) {
+	public static SeckillStatEnum stateOf(int index) {
 		for (SeckillStatEnum state : values()) {
 			if (state.getState() == index)
 				return state;

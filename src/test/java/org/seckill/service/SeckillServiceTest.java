@@ -22,7 +22,7 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 
 @RunWith(SpringJUnit4ClassRunner.class)
-//¸æËßjunit springÅäÖÃÎÄ¼þ
+//ï¿½ï¿½ï¿½ï¿½junit springï¿½ï¿½ï¿½ï¿½ï¿½Ä¼ï¿½
 @ContextConfiguration({"classpath:spring/spring-dao.xml","classpath:spring/spring-service.xml"})
 public class SeckillServiceTest {
 
@@ -60,7 +60,7 @@ public class SeckillServiceTest {
 
         try {
             SeckillExecution seckillExecution = this.seckillService.executeSeckill(id, userPhone, md5);
-            //seckillExecution=SeckillExecution{seckillId=1001, state=1, stateInfo='ÃëÉ±³É¹¦', successKilled=SuccessKilled{seckillId=1001, user_phone=0, state=0, createTime=Wed Jun 15 17:49:26 CST 2016}}
+            //seckillExecution=SeckillExecution{seckillId=1001, state=1, stateInfo='ï¿½ï¿½É±ï¿½É¹ï¿½', successKilled=SuccessKilled{seckillId=1001, user_phone=0, state=0, createTime=Wed Jun 15 17:49:26 CST 2016}}
             logger.info("seckillExecution={}",seckillExecution);
         } catch (RepeatKillException e) {
             logger.error(e.getMessage());
@@ -87,10 +87,16 @@ public class SeckillServiceTest {
                 logger.error(e.getMessage());
             }
         }else{
-            //ÃëÉ±Î´¿ªÆô
+            //ï¿½ï¿½É±Î´ï¿½ï¿½ï¿½ï¿½
             logger.warn("exposer={}",exposer);
         }
     }
 
-
+    
+    @Test
+    public void testExecuteSeckillProcedure() throws Exception {
+    	
+    	
+    	
+    }
 }

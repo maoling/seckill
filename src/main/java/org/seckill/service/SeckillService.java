@@ -12,5 +12,6 @@ public interface SeckillService {
 	List<Seckill> getSeckillList();
 	Seckill getById(long seckillId);
     Exposer exportSeckillUrl(long seckillId);
-    SeckillExecution executeSeckill(long seckillId,long userphone,String md5) throws SeckillException, RepeatKillException, SeckillClosedException;;
+    SeckillExecution executeSeckill(long seckillId,long userphone,String md5) throws SeckillException, RepeatKillException, SeckillClosedException;
+    SeckillExecution executeSeckillProcedure(long seckillId,long userphone,String md5);
 }
