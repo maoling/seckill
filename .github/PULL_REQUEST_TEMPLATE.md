@@ -14,15 +14,15 @@ issue [ZOOKEEPER-xxxx](https://issues.apache.org/jira/browse/ZOOKEEPER-xxxx)
 
 
 ### Checklist
+<!-- [x]: check the box -->
 
-- [ ] You have run the whole test suit in the local and all the unit cases have passed <!-- mvn verify spotbugs:check checkstyle:check -Pfull-build -Dsurefire-forkcount=4 -->
-- [ ] CI build status all becomes green(checkstyle, spotbugs, unit cases, etc)
-- [ ] You have verified no typos
-- [ ] You have added documentation if needed (including upgrade docs)
-- [ ] You have provided a benchmark report if this PR has a performance improvement
-- [ ] You have tested the compatibility if this PR has break changes
-- [ ] You have verified these dependencies are licensed in a way that is compatible for inclusion under [ASF 2.0](http://www.apache.org/legal/resolved.html#category-a)
-      if adding new dependencies to the code
+- [] You have run the whole test suit in the local and all the unit cases have passed <!-- mvn verify spotbugs:check checkstyle:check -Pfull-build -Dsurefire-forkcount=4 -->
+- [] CI build status all becomes green(checkstyle, spotbugs, unit cases, etc)
+- [] You have verified no typos
+- [] You have added documentation if needed (including upgrade docs)
+- [] You have provided a benchmark report if this PR has a performance improvement
+- [] You have tested the compatibility if this PR has break changes
+- [] You have verified the new added dependencies are licensed in a way that is compatible with [ASF 2.0](http://www.apache.org/legal/resolved.html#category-a)
 
 
 ### Special notes for reviewers
