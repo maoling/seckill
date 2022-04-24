@@ -8,6 +8,7 @@
 	<name>seckill Maven Webapp</name>
 	<url>http://maven.apache.org</url>
 
+
 	<properties>
 		<junit.version>4.11</junit.version>
 		<slf4j.version>1.7.12</slf4j.version>
